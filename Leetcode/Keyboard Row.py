@@ -1,7 +1,11 @@
 class Solution:
     def findWords(self, words: list[str]) -> list[str]:
 
-        key = ["qwertyuiop", "asdfghjkl", "zxcvbnm"]
+        """
+        converted to set in order to decrease the time complexity as set
+        searches elements in O(1) as it uses hash table.
+        """
+        key = [set("qwertyuiop"), set("asdfghjkl"), set("zxcvbnm")]
 
         def getCurRow(ind):
             for i in range(0, len(key)):
@@ -12,11 +16,8 @@ class Solution:
         res = []
         for word in words:
             cur = getCurRow(word[0])
-            found = True
-
-            for j in range(0, len(word)):
-                if word[j].lower() not in key[cur]:
-                    found = False
+            # all() will return true if all elements are present in key[cur] else false
+            found = all(chr.lower() in key[cur] for chr in word)
 
             if found:
                 res.append(word)
